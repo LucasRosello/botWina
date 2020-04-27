@@ -38,12 +38,14 @@ class botWina():
 
         #creo un json para guardar todo
         saldoSemanal = {}
-        saldoSemanal['semana'] = []
+        dia = self.definirDia()
+        saldoSemanal[dia] = saldo
+        
+       
+        
+        
 
-        saldoSemanal['semana'].append({
-            'Lunes': saldo,
-            'Martes': ''
-        })
+        
 
         #guardo el json en un archivo
         with open('saldo.json', 'w') as file:
@@ -52,7 +54,19 @@ class botWina():
     def test(self):
         
         print(datetime.today().weekday())
-        
+    
+    def definirDia(diaInt):
+        definirDiaSwitch = {
+            0: 'Lunes',
+            1: 'Martes',
+            2: 'Miercoles',
+            3: 'Jueves',
+            4: 'Viernes',
+            5: 'Sabado',
+            6: 'Domingo'
+        }
+        return definirDiaSwitch.get(diaInt, "Dia Invalido")
+
      
 
 bot = botWina()
