@@ -8,6 +8,9 @@ import json
 #Calendario
 from datetime import datetime
 
+#Monedas
+import locale
+
 
 
 
@@ -38,7 +41,11 @@ class botWina():
 
         #creo un json para guardar todo
         saldoSemanal = {}
-        dia = self.definirDia()
+        diaInt = int(datetime.today().weekday())
+        diaInt = int(diaInt)
+        print(diaInt)
+        dia = self.definirDia(diaInt)
+        print dia
         saldoSemanal[dia] = saldo
         
        
@@ -52,10 +59,21 @@ class botWina():
             json.dump(saldoSemanal, file, indent=4)
 
     def test(self):
-        
-        print(datetime.today().weekday())
+
+        locale.setlocale(locale.LC_ALL, 'es_AR')
+        with open('saldo.json', 'r') as saldo:
+            jsonSaldo = json.load(saldo)
+
+        print(json.dumps(jsonSaldo, indent=4, sort_keys=True))
+        saldoMartes = int(jsonSaldo["Martes"])
+        print(saldoMartes)
+
+
+
+
+
     
-    def definirDia(diaInt):
+    def definirDia(self, diaInt):
         definirDiaSwitch = {
             0: 'Lunes',
             1: 'Martes',
@@ -70,5 +88,5 @@ class botWina():
      
 
 bot = botWina()
-bot.login()
+bot.test()
 
