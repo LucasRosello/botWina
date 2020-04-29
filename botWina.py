@@ -11,6 +11,11 @@ from datetime import datetime
 #Monedas
 import locale
 
+#OTROS
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 
@@ -34,44 +39,35 @@ class botWina():
         botonLogin = self.driver.find_element_by_xpath('//*[@id="btnIngresar"]')
         botonLogin.click()
 
-        sleep(15)
+    def otro(self):
+        wait = WebDriverWait(self.driver, 15)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div')))
+
 
         #Me traigo el saldo
         saldo = self.driver.find_element_by_xpath('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div').text
-
-        #creo un json para guardar todo
-        saldoSemanal = {}
+        saldoSemanal = self.leerArchivoSaldo()
+        
+        #creo un json para guardar todo -- ARREGLAR
         diaInt = int(datetime.today().weekday())
-        diaInt = int(diaInt)
-        print(diaInt)
         dia = self.definirDia(diaInt)
-        print dia
-        saldoSemanal[dia] = saldo
-        
-       
-        
-        
-
+        saldoSemanal[dia] = self.limpiarStringMonto(saldo)
         
 
         #guardo el json en un archivo
         with open('saldo.json', 'w') as file:
             json.dump(saldoSemanal, file, indent=4)
 
-    def test(self):
+    def leerArchivoSaldo(self):
+        with open('saldo.json', 'r') as saldoEnJson:
+            return json.load(saldoEnJson)
 
-        locale.setlocale(locale.LC_ALL, 'es_AR')
-        with open('saldo.json', 'r') as saldo:
-            jsonSaldo = json.load(saldo)
-
-        print(json.dumps(jsonSaldo, indent=4, sort_keys=True))
-        saldoMartes = int(jsonSaldo["Martes"])
-        print(saldoMartes)
-
-
-
-
-
+        
+    def limpiarStringMonto(self, monto):
+        monto = monto.replace(".", "")
+        monto = monto.replace("$", "")
+        monto = monto.replace(",", ".")
+        return monto
     
     def definirDia(self, diaInt):
         definirDiaSwitch = {
@@ -88,5 +84,6 @@ class botWina():
      
 
 bot = botWina()
-bot.test()
+bot.login()
+bot.otro()
 
