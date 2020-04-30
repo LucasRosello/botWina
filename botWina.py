@@ -1,25 +1,21 @@
-#Imports Base
-from selenium import webdriver
-from time import sleep
-
 #Json
 import json
 
 #Calendario
 from datetime import datetime
 
-#Monedas
-import locale
-
-#OTROS
+#Selenium
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
-
-
+#Credenciales
 from credenciales import varUsuario, varClave
+
+
+
+
 
 class botWina():
     def __init__(self):
@@ -28,7 +24,7 @@ class botWina():
     def login(self):
         self.driver.get("https://allaria-ssl.allaria.com.ar/AllariaOnline/VBolsaNet/login.html")
 
-        sleep(3)
+        self.esperar('//*[@id="btnIngresar"]')
 
         usuario = self.driver.find_element_by_xpath('//*[@id="input_0"]')
         usuario.send_keys(varUsuario)
@@ -39,22 +35,27 @@ class botWina():
         botonLogin = self.driver.find_element_by_xpath('//*[@id="btnIngresar"]')
         botonLogin.click()
 
-    def otro(self):
-        wait = WebDriverWait(self.driver, 15)
-        element = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div')))
+    def leerYGuardarSaldo(self):
+        self.esperar('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div')
 
-
-        #Me traigo el saldo
-        saldo = self.driver.find_element_by_xpath('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div').text
+        saldoDeHoy = self.driver.find_element_by_xpath('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div').text
         saldoSemanal = self.leerArchivoSaldo()
         
-        #creo un json para guardar todo -- ARREGLAR
-        diaInt = int(datetime.today().weekday())
-        dia = self.definirDia(diaInt)
-        saldoSemanal[dia] = self.limpiarStringMonto(saldo)
+        numeroDeDia = int(datetime.today().weekday())
+        nombreDiaDeHoy = self.definirDia(numeroDeDia)
+        saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
+        self.escribirArchivoSaldo(saldoSemanal)
 
-        #guardo el json en un archivo
+    def enviarResumenSemanal(self):
+        if("is_sabado" == "enviarportelegram"):
+            print("programar esto")
+
+
+
+
+
+    def escribirArchivoSaldo(self, saldoSemanal):
         with open('saldo.json', 'w') as file:
             json.dump(saldoSemanal, file, indent=4)
 
@@ -62,6 +63,9 @@ class botWina():
         with open('saldo.json', 'r') as saldoEnJson:
             return json.load(saldoEnJson)
 
+    def esperar(self, path):
+        wait = WebDriverWait(self.driver, 15)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, path)))
         
     def limpiarStringMonto(self, monto):
         monto = monto.replace(".", "")
@@ -85,5 +89,6 @@ class botWina():
 
 bot = botWina()
 bot.login()
-bot.otro()
+bot.leerYGuardarSaldo()
+bot.enviarResumenSemanal()
 
