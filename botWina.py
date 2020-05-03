@@ -41,14 +41,14 @@ class botWina():
         saldoDeHoy = self.driver.find_element_by_xpath('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div').text
         saldoSemanal = self.leerArchivoSaldo()
         
-        numeroDeDia = int(datetime.today().weekday())
-        nombreDiaDeHoy = self.definirDia(numeroDeDia)
+        numeroDeDiaDeHoy = int(datetime.today().weekday())
+        nombreDiaDeHoy = self.definirDia(numeroDeDiaDeHoy)
         saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
         self.escribirArchivoSaldo(saldoSemanal)
 
     def enviarResumenSemanal(self):
-        if("is_sabado" == "enviarportelegram"):
+        if("saldo esta completo" == "enviarportelegram"):
             print("programar esto")
 
 
