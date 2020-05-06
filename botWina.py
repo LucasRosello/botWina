@@ -46,6 +46,7 @@ class botWina():
         saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
         self.escribirArchivoSaldo(saldoSemanal)
+        self.driver.quit()
 
     def enviarResumenSemanal(self):
         if("saldo esta completo" == "enviarportelegram"):
@@ -64,7 +65,7 @@ class botWina():
             return json.load(saldoEnJson)
 
     def esperar(self, path):
-        wait = WebDriverWait(self.driver, 15)
+        wait = WebDriverWait(self.driver, 25)
         element = wait.until(EC.element_to_be_clickable((By.XPATH, path)))
         
     def limpiarStringMonto(self, monto):
