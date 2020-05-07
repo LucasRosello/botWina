@@ -11,7 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 #Credenciales
-from credenciales import varUsuario, varClave
+from config import varUsuario, varClave, path
 
 
 
@@ -19,7 +19,8 @@ from credenciales import varUsuario, varClave
 
 class botWina():
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        if(self.yaSeEjecutoHoy() == False):
+            self.driver = webdriver.Chrome()
 
     def login(self):
         self.driver.get("https://allaria-ssl.allaria.com.ar/AllariaOnline/VBolsaNet/login.html")
@@ -43,6 +44,7 @@ class botWina():
         
         numeroDeDiaDeHoy = int(datetime.today().weekday())
         nombreDiaDeHoy = self.definirDia(numeroDeDiaDeHoy)
+        saldoSemanal["ultimaEjecucion"] = numeroDeDiaDeHoy
         saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
         self.escribirArchivoSaldo(saldoSemanal)
@@ -56,12 +58,19 @@ class botWina():
 
 
 
+    def yaSeEjecutoHoy(self):
+        json = self.leerArchivoSaldo()
+        if(int(datetime.today().weekday()) == json["ultimaEjecucion"]):
+            return True 
+        else:
+            return False
+            
     def escribirArchivoSaldo(self, saldoSemanal):
-        with open('saldo.json', 'w') as file:
+        with open(path+'saldo.json', 'w') as file:
             json.dump(saldoSemanal, file, indent=4)
 
     def leerArchivoSaldo(self):
-        with open('saldo.json', 'r') as saldoEnJson:
+        with open(path+'saldo.json', 'r') as saldoEnJson:
             return json.load(saldoEnJson)
 
     def esperar(self, path):
