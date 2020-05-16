@@ -2,16 +2,49 @@
 import requests
 import json
 
-from config import urlTelegram
+from config import urlTelegram, path
 
 
 class telegram():
     def __init__(self):
+        
         self.mandarMensaje()
 
     def mandarMensaje(self):
-        mensaje = "<b>Resumen semanal</b>\n\nLunes:17000\nMartes:2\nMiercoles:3423423\nJueves:2\nViernes:Tal&parse_mode=HTML"
+        mensaje = self.generarMensaje()
         requests.get(urlTelegram+mensaje)
+
+    def generarMensaje(self):
+        saldoSemanal = self.leerArchivoSaldo()
+
+        mensaje= []
+        mensaje.append("<b>Resumen Semanal Wina</b>")
+        mensaje.append("")
+        mensaje.append("Lunes: "+saldoSemanal["Lunes"])
+        mensaje.append("Martes: "+saldoSemanal["Martes"])
+        mensaje.append("Miercoles: "+saldoSemanal["Miercoles"])
+        mensaje.append("Jueves: "+saldoSemanal["Jueves"])
+        mensaje.append("Viernes: "+saldoSemanal["Viernes"])
+        mensaje.append("Sabado: "+saldoSemanal["Sabado"])
+        mensaje.append("Domingo: "+saldoSemanal["Domingo"])
+
+
+        return self.convertirAString(mensaje)
+    
+
+
+
+
+    def leerArchivoSaldo(self):
+        with open(path+'saldo.json', 'r') as saldoEnJson:
+            return json.load(saldoEnJson)
+  
+    def convertirAString(self, s):  
+        str1 = "\n" 
+        return (str1.join(s)) 
+
+
+
 
 
 bot = telegram()
