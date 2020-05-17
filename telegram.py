@@ -27,7 +27,10 @@ class telegram():
         mensaje.append("Viernes: "+saldoSemanal["Viernes"])
         mensaje.append("Sabado: "+saldoSemanal["Sabado"])
         mensaje.append("Domingo: "+saldoSemanal["Domingo"])
-
+        # mensaje.append("")
+        # mensaje.append("")
+        # mensaje.append("<b>Resumen Detallado Wina</b>")
+        # mensaje.append("")
 
         return self.convertirAString(mensaje)
     
