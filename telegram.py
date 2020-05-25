@@ -2,20 +2,20 @@
 import requests
 import json
 
+from datetime import datetime
+
 from config import urlTelegram, path
 
 
-class telegram():
-    def __init__(self):
+class Telegram():
         
-        self.mandarMensaje()
 
     def mandarMensaje(self):
         mensaje = self.generarMensaje()
         requests.get(urlTelegram+mensaje)
 
     def generarMensaje(self):
-        saldoSemanal = self.leerArchivoSaldo()
+        
 
         mensaje= []
         mensaje.append("<b>Resumen Semanal Wina</b>")
@@ -37,6 +37,8 @@ class telegram():
 
 
 
+    def test(self):
+        print(datetime.today().day)
 
     def leerArchivoSaldo(self):
         with open(path+'saldo.json', 'r') as saldoEnJson:
@@ -46,8 +48,17 @@ class telegram():
         str1 = "\n" 
         return (str1.join(s)) 
 
+    def guardarEnvioExitoso(self, saldoSemanal):
+        saldoSemanal["ultimoReporte"] = int(datetime.today().weekday())
+        with open(path+'saldo.json', 'w') as file:
+            json.dump(saldoSemanal, file, indent=4)
 
 
 
+bot = Telegram()
 
-bot = telegram()
+saldoSemanal = bot.leerArchivoSaldo()
+bot.mandarMensaje()
+
+
+

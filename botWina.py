@@ -13,6 +13,9 @@ from selenium.webdriver.support import expected_conditions as EC
 #Credenciales
 from config import varUsuario, varClave, path
 
+#Telegram
+from telegram import Telegram
+
 
 
 
@@ -47,12 +50,21 @@ class botWina():
         saldoSemanal["ultimaEjecucion"] = numeroDeDiaDeHoy
         saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
+        # if(nombreDiaDeHoy == "Sabado" and int(saldoSemanal["ultimoReporte"]) != int(datetime.today().day)):
+        #     print(int(saldoSemanal["ultimoReporte"]))
+        #     print(int(datetime.today().day))
+        #     self.enviarResumenSemanal()
+        #     saldoSemanal["ultimoReporte"] = datetime.today().day
+        
+
         self.escribirArchivoSaldo(saldoSemanal)
         self.driver.quit()
 
+        
+
     def enviarResumenSemanal(self):
-        if("saldo esta completo" == "enviarportelegram"):
-            print("programar esto")
+        
+        telegram = Telegram()
 
 
 
@@ -100,5 +112,5 @@ class botWina():
 bot = botWina()
 bot.login()
 bot.leerYGuardarSaldo()
-bot.enviarResumenSemanal()
+
 
