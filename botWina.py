@@ -50,21 +50,18 @@ class botWina():
         saldoSemanal["ultimaEjecucion"] = numeroDeDiaDeHoy
         saldoSemanal[nombreDiaDeHoy] = self.limpiarStringMonto(saldoDeHoy)
         
-        # if(nombreDiaDeHoy == "Sabado" and int(saldoSemanal["ultimoReporte"]) != int(datetime.today().day)):
-        #     print(int(saldoSemanal["ultimoReporte"]))
-        #     print(int(datetime.today().day))
-        #     self.enviarResumenSemanal()
-        #     saldoSemanal["ultimoReporte"] = datetime.today().day
-        
+        if(nombreDiaDeHoy == "Domingo"):
+            self.enviarResumenSemanal(saldoSemanal)    
 
         self.escribirArchivoSaldo(saldoSemanal)
         self.driver.quit()
 
         
 
-    def enviarResumenSemanal(self):
+    def enviarResumenSemanal(self, saldoSemanal):
         
         telegram = Telegram()
+        telegram.mandarMensaje(saldoSemanal)
 
 
 

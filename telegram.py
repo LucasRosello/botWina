@@ -10,11 +10,11 @@ from config import urlTelegram, path
 class Telegram():
         
 
-    def mandarMensaje(self):
-        mensaje = self.generarMensaje()
+    def mandarMensaje(self, saldoSemanal):
+        mensaje = self.generarMensaje(saldoSemanal)
         requests.get(urlTelegram+mensaje)
 
-    def generarMensaje(self):
+    def generarMensaje(self, saldoSemanal):
         
 
         mensaje= []
@@ -40,25 +40,13 @@ class Telegram():
     def test(self):
         print(datetime.today().day)
 
-    def leerArchivoSaldo(self):
-        with open(path+'saldo.json', 'r') as saldoEnJson:
-            return json.load(saldoEnJson)
-  
     def convertirAString(self, s):  
         str1 = "\n" 
         return (str1.join(s)) 
 
-    def guardarEnvioExitoso(self, saldoSemanal):
-        saldoSemanal["ultimoReporte"] = int(datetime.today().weekday())
-        with open(path+'saldo.json', 'w') as file:
-            json.dump(saldoSemanal, file, indent=4)
 
 
 
-bot = Telegram()
-
-saldoSemanal = bot.leerArchivoSaldo()
-bot.mandarMensaje()
 
 
 
