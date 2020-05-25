@@ -21,9 +21,13 @@ from telegram import Telegram
 
 
 class botWina():
+
+
     def __init__(self):
         if(self.yaSeEjecutoHoy() == False):
             self.driver = webdriver.Chrome()
+
+
 
     def login(self):
         self.driver.get("https://allaria-ssl.allaria.com.ar/AllariaOnline/VBolsaNet/login.html")
@@ -38,6 +42,9 @@ class botWina():
 
         botonLogin = self.driver.find_element_by_xpath('//*[@id="btnIngresar"]')
         botonLogin.click()
+
+
+
 
     def leerYGuardarSaldo(self):
         self.esperar('//*[@id="view-container"]/div/div[2]/div/div/div/div/div/ng-transclude/div[1]/span[1]/div')
@@ -62,6 +69,8 @@ class botWina():
         
         telegram = Telegram()
         telegram.mandarMensaje(saldoSemanal)
+
+
 
 
 
