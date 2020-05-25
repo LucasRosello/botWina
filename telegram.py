@@ -1,8 +1,5 @@
-
 import requests
 import json
-
-from datetime import datetime
 
 from config import urlTelegram, path
 
@@ -13,6 +10,7 @@ class Telegram():
     def mandarMensaje(self, saldoSemanal):
         mensaje = self.generarMensaje(saldoSemanal)
         requests.get(urlTelegram+mensaje)
+
 
     def generarMensaje(self, saldoSemanal):
         
@@ -32,13 +30,8 @@ class Telegram():
         # mensaje.append("<b>Resumen Detallado Wina</b>")
         # mensaje.append("")
 
-        return self.convertirAString(mensaje)
-    
+        return self.convertirAString(mensaje) 
 
-
-
-    def test(self):
-        print(datetime.today().day)
 
     def convertirAString(self, s):  
         str1 = "\n" 
