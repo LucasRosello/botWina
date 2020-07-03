@@ -1,0 +1,4 @@
+varUsuario=""
+varClave=""
+path=""
+urlTelegram=""
