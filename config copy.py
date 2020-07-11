@@ -1,4 +1,4 @@
-varUsuario="adsadasdsa"
+varUsuario=""
 varClave=""
 path=""
 urlTelegram=""
