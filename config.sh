@@ -3,6 +3,10 @@ unzip chromedriver_linux64.zip
 rm chromedriver_linux64.zip
 mv chromedriver /usr/local/bin
 
-pip install selenium
-touch config.py
-touch saldo.json
+pip3 install selenium
+mv 'config copy.py' 'config.py'
+mv 'saldo copy.json' 'saldo.json'
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb

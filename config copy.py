@@ -1,4 +1,0 @@
-varUsuario=""
-varClave=""
-path=""
-urlTelegram=""
