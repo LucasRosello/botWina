@@ -114,9 +114,11 @@ class botWina():
         return definirDiaSwitch.get(diaInt, "Dia Invalido")
 
      
-
-bot = botWina()
-bot.login()
-bot.leerYGuardarSaldo()
+try:
+    bot = botWina()
+    bot.login()
+    bot.leerYGuardarSaldo()
+except:
+    print("El programa ya corrio hoy o ocurrio un error fatal.") 
 
 
