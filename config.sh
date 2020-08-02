@@ -11,4 +11,6 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 apt install ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
 
+echo "Acordate de añadir los parametros al config.py"
+
 #  0 * * * * export DISPLAY=:0 && export PATH=$PATH:/usr/local/bin && /usr/bin/python3 /var/www/html/botWina/botWina.py
