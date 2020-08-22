@@ -33,9 +33,9 @@ class Telegram():
         return self.convertirAString(mensaje) 
 
 
-    def convertirAString(self, s):  
-        str1 = "\n" 
-        return (str1.join(s)) 
+    def convertirAString(self, mensaje):  
+        saltoDeLinea = "\n" 
+        return (saltoDeLinea.join(mensaje)) 
 
 
 
