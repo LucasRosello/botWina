@@ -1,3 +1,10 @@
 {
-    "ultimaEjecucion": null
+    "ultimaEjecucion": null,
+    "Lunes": 0,
+    "Martes": 0,
+    "Miercoles": 0,
+    "Jueves": 0,
+    "Viernes": 0,
+    "Sabado": 0,
+    "Domingo": 0
 }
